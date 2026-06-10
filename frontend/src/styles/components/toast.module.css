@@ -1,0 +1,213 @@
+.toastOverlay {
+    /* border: 1px solid red; */
+    position: fixed;
+    top: clamp(1.25rem, 3vw, 2rem);
+    right: clamp(1.25rem, 3vw, 2rem);
+    z-index: 9999;
+    pointer-events: none;
+}
+
+.toast {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    min-width: 320px;
+    max-width: 480px;
+    padding: 1rem 1.5rem;
+    border-radius: 0.5rem;
+    box-shadow: var(--box-shadow);
+    background: var(--foreground-color);
+    pointer-events: auto;
+    overflow: visible;
+    animation: slideIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(400px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+.toast.info {
+    border: 1px solid var(--info-color);
+    color: var(--info-color);
+}
+
+.toast.success {
+    border: 1px solid var(--success-color);
+    color: var(--success-color);
+}
+
+.toast.warning {
+    border: 1px solid var(--warning-color);
+    color: var(--warning-color);
+}
+
+.toast.error {
+    border: 1px solid var(--error-color);
+    color: var(--error-color);
+}
+
+.progressBar {
+    position: absolute;
+    left: 0.5rem;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 0.25rem;
+    height: 70%;
+    background: rgba(0, 0, 0, 0.08);
+    border-radius: 9999px;
+    overflow: hidden;
+}
+
+.progressFill {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 100%;
+    border-radius: 9999px;
+    animation: progressShrink 5s linear;
+    transform-origin: bottom;
+}
+
+@keyframes progressShrink {
+    from {
+        height: 100%;
+    }
+
+    to {
+        height: 0%;
+    }
+}
+
+.toast.info .progressFill {
+    background: var(--info-color);
+}
+
+.toast.success .progressFill {
+    background: var(--success-color);
+}
+
+.toast.warning .progressFill {
+    background: var(--warning-color);
+}
+
+.toast.error .progressFill {
+    background: var(--error-color);
+}
+
+.toastIcon {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    margin-left: 0.5rem;
+}
+
+.icon {
+    width: 24px;
+    height: 24px;
+    stroke-width: 2.5;
+}
+
+.toast.info .icon {
+    color: var(--info-color);
+}
+
+.toast.success .icon {
+    color: var(--success-color);
+}
+
+.toast.warning .icon {
+    color: var(--warning-color);
+}
+
+.toast.error .icon {
+    color: var(--error-color);
+}
+
+.toastMessage {
+    flex: 1;
+    font-size: 0.875rem;
+    font-weight: 400;
+    line-height: 1.5;
+}
+
+.toastClose {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border: none;
+    border-radius: 0.5rem;
+    background: transparent;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.toastClose:hover {
+    background: rgba(0, 0, 0, 0.08);
+    transform: scale(1.1);
+}
+
+.toastClose:active {
+    transform: scale(0.95);
+}
+
+.closeIcon {
+    width: 18px;
+    height: 18px;
+    opacity: 0.6;
+    transition: opacity 0.2s ease;
+}
+
+.closeIcon:hover .closeIcon {
+    opacity: 1;
+}
+
+
+.toast.info .closeIcon {
+    color: var(--info-color);
+}
+
+.toast.success .closeIcon {
+    color: var(--success-color);
+}
+
+.toast.warning .closeIcon {
+    color: var(--warning-color);
+}
+
+.toast.error .closeIcon {
+    color: var(--error-color);
+}
+
+@media (max-width: 640px) {
+    .toastOverlay {
+        top: 10px;
+        right: 10px;
+        left: 10px;
+    }
+
+    .toast {
+        min-width: auto;
+        max-width: 100%;
+    }
+
+    .progressBar {
+        left: 6px;
+        height: 36px;
+    }
+}

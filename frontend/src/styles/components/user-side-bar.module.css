@@ -1,0 +1,315 @@
+.sidebar {
+    position: fixed;
+    inset: 0 auto 0 0;
+    height: 100vh;
+    width: 70px;
+    background: var(--foreground-color);
+    color: var(--secondary-color);
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    border-radius: 0 0.5rem 0.5rem 0;
+    box-shadow: var(--box-shadow);
+    transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.sidebar.open {
+    width: 250px;
+}
+
+.sidebar.closed {
+    width: 70px;
+}
+
+.header {
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.title {
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+}
+
+.sidebar.closed .title {
+    justify-content: center;
+}
+
+.titleText {
+    white-space: nowrap;
+    opacity: 1;
+    transition: opacity 0.2s ease;
+}
+
+.sidebar.closed .titleText {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.edgeToggle {
+    min-width: 30px;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    color: var(--secondary-color);
+    border: none;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition:
+        background 0.2s ease,
+        color 0.2s ease,
+        transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 1001;
+    flex-shrink: 0;
+}
+
+.edgeToggle:hover {
+    background: rgba(0, 0, 0, 0.08);
+    color: black;
+}
+
+.sidebar.open .edgeToggle {
+    transform: rotate(180deg);
+}
+
+.nav {
+    /* border: 1px solid red; */
+    flex: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 0.75rem 0.5rem;
+}
+
+.menuList {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.menuItem {
+    margin: 0;
+}
+
+.menuLink {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.65rem 0.75rem;
+    background: transparent;
+    color: var(--secondary-color);
+    border: none;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    text-decoration: none;
+    font-size: 0.95rem;
+    font-weight: 500;
+    transition:
+        background 0.2s ease,
+        color 0.2s ease,
+        transform 0.2s ease;
+    position: relative;
+    width: 100%;
+}
+
+/* ตอนปิด sidebar ให้ center */
+.sidebar.closed .menuLink {
+    justify-content: center;
+    padding: 0.65rem;
+}
+
+.menuLink:hover {
+    background: rgba(0, 0, 0, 0.08);
+    color: black;
+}
+
+.menuLink.active {
+    background: var(--background-color);
+    color: black;
+    font-weight: 500;
+}
+
+.menuLink.active::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 3px;
+    height: 70%;
+    background: var(--primary-color);
+    border-radius: 0 2px 2px 0;
+}
+
+.icon {
+    font-size: 1.25rem;
+    width: 24px;
+    min-width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.menuText {
+    white-space: nowrap;
+    opacity: 1;
+    transition: opacity 0.2s ease;
+    overflow: hidden;
+    flex: 1;
+}
+
+.sidebar.closed .menuText {
+    opacity: 0;
+    width: 0;
+    pointer-events: none;
+}
+
+.dashboardLink {
+    padding: 0.75rem;
+    margin: 0.5rem 0.5rem 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    background: var(--secondary-color);
+    border: 1px solid var(--border-color);
+    border-radius: 0.5rem;
+    color: white;
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 600;
+    transition: all 0.2s ease;
+}
+
+.dashboardLink:hover {
+    background: black;
+    transform: scale(1.02);
+}
+
+.sidebar.closed .dashboardLink {
+    padding: 0.75rem 0.5rem;
+}
+
+.sidebar.closed .dashboardLink span {
+    display: none;
+}
+
+.overlay {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    .sidebar {
+        width: 250px;
+        transform: translateX(-100%);
+        transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        border-radius: 0 1rem 1rem 0;
+    }
+
+    .sidebar.open {
+        transform: translateX(0);
+    }
+
+    .sidebar.closed {
+        transform: translateX(-100%);
+    }
+
+    .overlay {
+        display: block;
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.5);
+        backdrop-filter: blur(3px);
+        z-index: 999;
+        animation: fadeIn 0.2s ease;
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+.nav::-webkit-scrollbar {
+    width: 5px;
+}
+
+.nav::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.nav::-webkit-scrollbar-thumb {
+    background: var(--scrollbar-color, rgba(0, 0, 0, 0.2));
+    border-radius: 3px;
+}
+
+.nav::-webkit-scrollbar-thumb:hover {
+    background: var(--scrollbar-hover-color, rgba(0, 0, 0, 0.3));
+}
+
+@media (max-width: 1024px) {
+    .sidebar.open {
+        width: 240px;
+    }
+}
+
+.sidebar.closed .menuLink[title] {
+    position: relative;
+}
+
+.sidebar.closed .menuLink:hover::after {
+    content: attr(title);
+    position: absolute;
+    left: calc(100% + 10px);
+    top: 50%;
+    transform: translateY(-50%);
+    padding: 0.5rem 0.75rem;
+    background: var(--tooltip-background, #1e293b);
+    border: 1px solid var(--border-color);
+    border-radius: 0.5rem;
+    color: var(--tooltip-color, #ffffff);
+    font-size: 0.875rem;
+    font-weight: 500;
+    white-space: nowrap;
+    z-index: 1002;
+    pointer-events: none;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    animation: tooltipSlide 0.15s ease;
+}
+
+@keyframes tooltipSlide {
+    from {
+        opacity: 0;
+        transform: translateY(-50%) translateX(-5px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(-50%) translateX(0);
+    }
+}
+
+.menuLink:focus-visible,
+.edgeToggle:focus-visible {
+    outline: 2px solid var(--focus-color, #3b82f6);
+    outline-offset: 2px;
+}
+
+.sidebar * {
+    box-sizing: border-box;
+}

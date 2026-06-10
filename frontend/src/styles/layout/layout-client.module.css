@@ -1,0 +1,20 @@
+.mainLayout {
+    /* border: 1px solid red; */
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    /* padding: 1.5rem; */
+    margin-left: 70px;
+    transition: margin-left 0.3s ease;
+}
+
+.mainLayout.sidebarOpen {
+    margin-left: 250px
+}
+
+@media (max-width: 768px) {
+    .mainLayout {
+        margin-left: 0;
+        padding: 1rem;
+    }
+}

@@ -1,0 +1,120 @@
+name: fdar_system
+
+
+x-fdar_backend: &fdar_backend
+  build:
+    context: ./backend
+    dockerfile: Dockerfile
+  restart: unless-stopped
+  environment: 
+    POSTGRES_USER: ${POSTGRES_USER}
+    POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    POSTGRES_HOST: ${POSTGRES_HOST}
+    POSTGRES_PORT: ${POSTGRES_PORT}
+    POSTGRES_DB: ${POSTGRES_DB}
+    SECRET_KEY: ${SECRET_KEY}
+    WORKER_API_BASE_URL: ${WORKER_API_BASE_URL}
+  volumes:
+    - ./mediamtx.yml:/app/mediamtx.yml
+    - ./backend/files:/app/files
+  networks:
+    - fdar_network
+
+
+services:
+  fdar_frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: fdar_frontend
+    restart: unless-stopped
+    environment: 
+      NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL}
+      MEDIAMTX_WEBRTC_API_BASE_URL: ${MEDIAMTX_WEBRTC_API_BASE_URL}
+      MEDIAMTX_HLS_API_BASE_URL: ${MEDIAMTX_HLS_API_BASE_URL}
+      MEDIAMTX_USERNAME: ${MEDIAMTX_USERNAME}
+      MEDIAMTX_PASSWORD: ${MEDIAMTX_PASSWORD}
+    depends_on:
+      - fdar_backend_api
+    ports:
+      - "3000:3000"
+    networks:
+      - fdar_network
+
+  fdar_backend_api:
+    <<: *fdar_backend
+    container_name: fdar_backend_api
+    restart: unless-stopped
+    command: uvicorn src.api.main:api --host 0.0.0.0 --port 8000
+    depends_on:
+      - fdar_postgres_db
+    ports:
+      - "8000:8000"
+
+  fdar_backend_worker:
+    <<: *fdar_backend
+    container_name: fdar_backend_worker
+    restart: unless-stopped
+    command: uvicorn src.workers.main:api --host 0.0.0.0 --port 8000
+    depends_on:
+      - fdar_postgres_db
+    # ports:
+    #   - "8000:8000"
+
+  fdar_mediamtx:
+    image: bluenviron/mediamtx:1.15.6
+    container_name: fdar_mediamtx
+    restart: unless-stopped
+    volumes:
+      - ./mediamtx.yml:/mediamtx.yml
+    ports:
+      - "8189:8189/udp" # ICE
+      - "8554:8554"     # RTSP
+      - "8888:8888"     # HLS
+      - "8889:8889"     # WebRTC HTTP
+      - "9997:9997"     # API 
+    networks:
+      - fdar_network
+
+  fdar_postgres_db:
+    image: pgvector/pgvector:pg15
+    container_name: fdar_postgres_db
+    restart: unless-stopped
+    environment:
+      TZ: Asia/Bangkok
+      PGTZ: Asia/Bangkok
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    ports:
+      - "5432:5432"
+    volumes:
+      - fdar_postgres_data:/var/lib/postgresql/data
+    networks:
+      - fdar_network
+
+  fdar_pgadmin:
+    image: dpage/pgadmin4
+    container_name: fdar_pgadmin
+    restart: unless-stopped
+    depends_on:
+      - fdar_postgres_db
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
+    ports:
+      - "5050:80"
+    volumes:
+      - fdar_pgadmin_data:/var/lib/pgadmin/data
+    networks:
+      - fdar_network
+
+
+volumes:
+  fdar_postgres_data:
+  fdar_pgadmin_data:
+
+
+networks:
+  fdar_network:
+    driver: bridge

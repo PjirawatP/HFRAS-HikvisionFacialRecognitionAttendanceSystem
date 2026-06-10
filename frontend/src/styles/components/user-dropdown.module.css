@@ -1,0 +1,163 @@
+.container {
+    position: relative;
+}
+
+.userButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    height: 50px;
+    border-radius: 0.875rem;
+    background: var(--foreground-color);
+    border: 1.5px solid var(--border-color);
+    color: var(--secondary-color);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.userButton:hover {
+    /* background: var(--background-color); */
+    border-color: var(--tertiary-color);
+    color: var(--secondary-color);
+    box-shadow: var(--box-shadow);
+}
+
+/* .userButton:active {
+    transform: scale(0.95);
+} */
+
+.userIcon {
+    width: 25px;
+    height: 25px;
+}
+
+.dropdown {
+    position: absolute;
+    top: calc(100% + 0.5rem);
+    right: 0;
+    min-width: 240px;
+    background: var(--foreground-color);
+    border: 1.5px solid var(--border-color);
+    border-radius: 0.75rem;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+    z-index: 1000;
+    overflow: hidden;
+    animation: dropdownSlideIn 0.2s ease-out;
+}
+
+@keyframes dropdownSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.dropdownHeader {
+    padding: 1rem 1.25rem;
+}
+
+.username {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--secondary-color);
+    margin: 0 0 0.25rem 0;
+}
+
+.userRole {
+    font-size: 0.8125rem;
+    font-weight: 500;
+    color: var(--tertiary-color);
+    margin: 0;
+}
+
+.dropdownDivider {
+    height: 1px;
+    background: var(--border-color);
+    margin: 0;
+}
+
+.dropdownContent {
+    padding: 0.5rem;
+}
+
+.signOutButton {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 0.875rem;
+    background: transparent;
+    border: none;
+    border-radius: 0.5rem;
+    font-size: 0.9375rem;
+    font-weight: 500;
+    color: #dc2626;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: left;
+}
+
+.signOutButton:hover {
+    background: rgba(220, 38, 38, 0.1);
+    color: #b91c1c;
+}
+
+.signOutButton:active {
+    background: rgba(220, 38, 38, 0.15);
+    transform: scale(0.98);
+}
+
+.signOutButton span {
+    flex: 1;
+}
+
+.signOutIcon {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+}
+
+@media (max-width: 480px) {
+    .userButton {
+        width: 40px;
+        height: 40px;
+    }
+
+    .userIcon {
+        width: 20px;
+        height: 20px;
+    }
+
+    .dropdown {
+        min-width: 200px;
+        right: -0.5rem;
+    }
+
+    .dropdownHeader {
+        padding: 0.875rem 1rem;
+    }
+
+    .username {
+        font-size: 0.9375rem;
+    }
+
+    .userRole {
+        font-size: 0.75rem;
+    }
+
+    .signOutButton {
+        padding: 0.625rem 0.75rem;
+        font-size: 0.875rem;
+    }
+
+    .signOutIcon {
+        width: 16px;
+        height: 16px;
+    }
+}

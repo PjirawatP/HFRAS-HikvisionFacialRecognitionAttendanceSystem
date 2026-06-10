@@ -1,0 +1,20 @@
+logLevel: info
+authMethods:
+- basic
+authInternalUsers:
+- user: admin
+  pass: password
+  permissions:
+  - action: api
+  - action: publish
+  - action: read
+api: true
+apiAddress: :9997
+rtsp: true
+rtspAddress: :8554
+webrtc: true
+webrtcAddress: :8889
+webrtcLocalUDPAddress: 0.0.0.0:8189
+# webrtcAdditionalHosts:
+#   - 192.168.1.18
+paths: {}

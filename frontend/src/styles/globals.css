@@ -1,0 +1,34 @@
+:root {
+  --primary-color: #D8151D;
+  --secondary-color: #2d2d2d;
+  --tertiary-color: #787878;
+
+  --background-color: #f3f3f3;
+  --foreground-color: #ffffff;
+
+  --border-color: #e3e3e3;
+  --box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+
+  --error-background-color: #fef2f2;
+  --error-color: #dc2626;
+  --warning-background-color: #fefce8;
+  --warning-color: #d97706;
+  --success-background-color: #f0fdf4;
+  --success-color: #16a34a;
+  --info-background-color: #eff6ff;
+  --info-color: #2563eb;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Kanit", sans-serif;
+}
+
+html,
+body {
+  max-width: 100vw;
+  background: var(--background-color);
+  overflow: hidden;
+}
